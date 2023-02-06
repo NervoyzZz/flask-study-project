@@ -29,3 +29,17 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.query(User).get(user_id)
+
+
+class Friends(db.Model):
+    __tablename__ = 'friends'
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), nullable=False)
+    friend_id = db.Column(db.Integer(), nullable=False)
+
+    def __repr__(self):
+        return "<{}:{}:{}>".format(self.id, self.user_id, self.friend_id)
+
+
+def get_friends_list(user_id):
+    return db.session.query(Friends).get(user_id)
