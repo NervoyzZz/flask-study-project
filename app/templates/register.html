@@ -6,7 +6,7 @@
 <body>
 
 	{% for category, message in  get_flashed_messages(with_categories=true) %}
-	<span class="{{ category }}">{{ message }}</span>
+	    <span class="{{ category }}">{{ message }}</span>
     {% endfor %}
 
     <form action="" method="post">
