@@ -51,3 +51,15 @@ def register():
 
     return render_template('register.html', form=form)
 
+
+@main.route('/delete//')
+def delete_user(user_id):
+    form = DeleteForm()
+    if form.validate_on_submit():
+        user = db.query(User).filter(User.id == user_id)
+        # todo: add password confirmation
+        db.session.delete(user)
+        db.session.commit()
+
+    return render_template('delete.html', form=form)
+
