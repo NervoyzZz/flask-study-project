@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+</head>
+<body>
+
+	<h1>Confirm password to delete the account</h1>
+	{% for category, message in  get_flashed_messages(with_categories=true) %}
+		<span class="{{ category }}">{{ message }}</span>
+    {% endfor %}
+
+    <form action="" method="post">
+		{{ form.csrf_token }}
+		<p>
+			{{ form.password.label() }}
+			{{ form.password() }}
+			{% if form.password.errors %}
+				{% for error in form.password.errors %}
+					{{ error }}
+				{% endfor %}
+			{% endif %}
+		</p>
+
+		<p>
+			<input type="submit">
+		</p>
+    </form>
+
+</body>
+</html>
