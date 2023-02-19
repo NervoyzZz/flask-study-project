@@ -16,7 +16,8 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.session.query(User).filter(User.username == form.username.data).first()
+        user = db.session.query(User).filter(
+            User.username == form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
             return redirect(url_for('.admin'))
@@ -30,14 +31,18 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if db.session.query(User).filter(User.username == form.username.data).count() != 0:
+        if db.session.query(User).filter(
+                User.username == form.username.data).count() != 0:
             flash("Such username is already in use!", 'error')
             return redirect(url_for('.register'))
-        if form.email.data() and db.session.query(User).filter(User.email == form.email.data).count() != 0:
+        if form.email.data and db.session.query(User).filter(
+                User.email == form.email.data).count() != 0:
             flash("This email is already in use!", 'error')
             return redirect(url_for('.register'))
 
-        user = User(name=form.name.data, email=form.email.data, username=form.username.data)
+        user = User(name=form.name.data,
+                    email=form.email.data,
+                    username=form.username.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
