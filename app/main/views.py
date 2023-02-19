@@ -1,7 +1,7 @@
 from app import db
 from app.models import User
 from . import main
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, DeleteForm
 
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, login_user, current_user, logout_user
@@ -57,9 +57,12 @@ def delete_user(user_id):
     form = DeleteForm()
     if form.validate_on_submit():
         user = db.query(User).filter(User.id == user_id)
-        # todo: add password confirmation
-        db.session.delete(user)
-        db.session.commit()
+        if user and user.check_password(form.password.data):
+            db.session.delete(user)
+            db.session.commit()
+            return redirect(url_for('.register'))
+        else:
+            flash("Invalid password", 'error')
+            return redirect(url_for('.delete', user_id))
 
     return render_template('delete.html', form=form)
-

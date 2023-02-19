@@ -17,3 +17,8 @@ class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[Email()])
     remember = BooleanField("Remember Me")
     submit = SubmitField()
+
+
+class DeleteForm(FlaskForm):
+    password = StringField("Password", validator=[DataRequired()])
+    submit = SubmitField()
