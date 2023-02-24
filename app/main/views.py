@@ -22,7 +22,7 @@ def login():
             login_user(user, remember=form.remember.data)
             return redirect(url_for('.user'))
 
-        flash("Invalid username/password", 'error')
+        flash('Invalid username/password', 'error')
         return redirect(url_for('.login'))
     return render_template('login.html', form=form)
 
@@ -33,11 +33,11 @@ def register():
     if form.validate_on_submit():
         if db.session.query(User).filter(
                 User.username == form.username.data).count() != 0:
-            flash("Such username is already in use!", 'error')
+            flash('Such username is already in use!', 'error')
             return redirect(url_for('.register'))
         if form.email.data and db.session.query(User).filter(
                 User.email == form.email.data).count() != 0:
-            flash("This email is already in use!", 'error')
+            flash('This email is already in use!', 'error')
             return redirect(url_for('.register'))
 
         user = User(name=form.name.data,
@@ -63,7 +63,7 @@ def delete_user(user_id):
             db.session.commit()
             return redirect(url_for('.register'))
         else:
-            flash("Invalid password", 'error')
+            flash('Invalid password', 'error')
             return redirect(url_for('.delete', user_id))
 
     return render_template('delete.html', form=form)
@@ -73,3 +73,11 @@ def delete_user(user_id):
 @login_required
 def user():
     return render_template('user.html')
+
+
+@main.route('/logout/')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('.login'))
