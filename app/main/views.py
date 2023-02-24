@@ -20,7 +20,7 @@ def login():
             User.username == form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('.admin'))
+            return redirect(url_for('.user'))
 
         flash("Invalid username/password", 'error')
         return redirect(url_for('.login'))
@@ -48,6 +48,7 @@ def register():
         db.session.commit()
 
         login_user(user, remember=form.remember.data)
+        return redirect(url_for('.user'))
 
     return render_template('register.html', form=form)
 
