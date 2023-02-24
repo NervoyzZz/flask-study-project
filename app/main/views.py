@@ -57,7 +57,7 @@ def register():
 def delete_user(user_id):
     form = DeleteForm()
     if form.validate_on_submit():
-        user = db.session.query(User).filter(User.id == user_id)
+        user = db.session.query(User).get(user_id)
         if user and user.check_password(form.password.data):
             db.session.delete(user)
             db.session.commit()
