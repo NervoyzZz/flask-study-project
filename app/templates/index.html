@@ -1,11 +1,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Flastu</title>
 </head>
 <body>
 
-  <p>INDEX PAGE</p>
+<h1>Flastu</h1>
+<p>Flastu is a flask study project.</p>
+<p>You can <a href="{{ url_for('.login') }}">login</a> or
+  <a href="{{ url_for('.register') }}">register</a>.</p>
+<p><a href="{{ url_for('.user') }}">User page</a>.</p>
 
 </body>
 </html>
