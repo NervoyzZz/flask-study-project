@@ -67,3 +67,9 @@ def delete_user(user_id):
             return redirect(url_for('.delete', user_id))
 
     return render_template('delete.html', form=form)
+
+
+@main.route('/user/')
+@login_required
+def user():
+    return render_template('user.html')
