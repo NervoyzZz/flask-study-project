@@ -53,7 +53,7 @@ def register():
     return render_template('register.html', form=form)
 
 
-@main.route('/delete/<user_id>/')
+@main.route('/delete/<user_id>/', methods=['post', 'get'])
 def delete_user(user_id):
     form = DeleteForm()
     if form.validate_on_submit():
