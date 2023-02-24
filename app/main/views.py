@@ -53,7 +53,7 @@ def register():
     return render_template('register.html', form=form)
 
 
-@main.route('/delete//')
+@main.route('/delete/<user_id>/')
 def delete_user(user_id):
     form = DeleteForm()
     if form.validate_on_submit():
@@ -64,7 +64,7 @@ def delete_user(user_id):
             return redirect(url_for('.register'))
         else:
             flash('Invalid password', 'error')
-            return redirect(url_for('.delete', user_id))
+            return redirect(url_for('.delete_user', user_id=user_id))
 
     return render_template('delete.html', form=form)
 
