@@ -1,13 +1,16 @@
+from asyncio import current_task
+
 from app import db
 from app.models import User
 from . import main
 from .forms import LoginForm, RegisterForm, DeleteForm
 
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, abort
 from flask_login import login_required, login_user, current_user, logout_user
 
 
 @main.route('/')
+@main.route('/index/')
 def index():
     return render_template('index.html')
 
@@ -55,18 +58,21 @@ def register():
 
 @main.route('/delete/<user_id>/', methods=['post', 'get'])
 def delete_user(user_id):
-    form = DeleteForm()
-    if form.validate_on_submit():
-        user = db.session.query(User).get(user_id)
-        if user and user.check_password(form.password.data):
-            db.session.delete(user)
-            db.session.commit()
-            return redirect(url_for('.register'))
-        else:
-            flash('Invalid password', 'error')
-            return redirect(url_for('.delete_user', user_id=user_id))
-
-    return render_template('delete.html', form=form)
+    print(current_user.id, user_id)
+    if current_user.is_authenticated and current_user.id == int(user_id):
+        form = DeleteForm()
+        if form.validate_on_submit():
+            user = db.session.query(User).get(user_id)
+            if user and user.check_password(form.password.data):
+                db.session.delete(user)
+                db.session.commit()
+                return redirect(url_for('.register'))
+            else:
+                flash('Invalid password', 'error')
+                return redirect(url_for('.delete_user', user_id=user_id))
+        return render_template('delete.html', form=form)
+    else:
+        abort(404)
 
 
 @main.route('/user/')
