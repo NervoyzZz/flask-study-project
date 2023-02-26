@@ -62,7 +62,6 @@ def register():
 
 @main.route('/delete/<user_id>/', methods=['post', 'get'])
 def delete_user(user_id):
-    print(current_user.id, user_id)
     if current_user.is_authenticated and current_user.id == int(user_id):
         form = DeleteForm()
         if form.validate_on_submit():
