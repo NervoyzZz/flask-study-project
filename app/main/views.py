@@ -17,6 +17,8 @@ def index():
 
 @main.route('/login/', methods=['post', 'get'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('.user'))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.session.query(User).filter(
@@ -32,6 +34,8 @@ def login():
 
 @main.route('/register/', methods=['post', 'get'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('.user'))
     form = RegisterForm()
     if form.validate_on_submit():
         if db.session.query(User).filter(
